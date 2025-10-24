@@ -24,7 +24,53 @@ El objetivo principal es obtener una vista completa y consolidada de los usuario
 - Python 3.8+
 - Biblioteca `ldap3`
 
-Instalación de dependencias:
+#Instalación de dependencias:
 
 ```bash
 pip install ldap3
+```
+
+#Uso
+Ejecución básica
+```bash
+python3 ldap-harvester.py -t <server-ip> -b "dc=example,dc=local"
+```
+Con StartTLS (si el servidor lo soporta)
+```bash
+python3 ldap-harvester.py -t <server-ip> -b "dc=example,dc=local" --starttls
+```
+Entornos con certificados autofirmados
+```bash
+python3 ldap-harvester.py -t <server-ip> -b "dc=example,dc=local" --starttls --insecure
+```
+Uso con credenciales (bind autenticado)
+```bash
+python3 ldap-harvester.py -t <server-ip> -b "dc=example,dc=local" \
+  -u "CN=usuario,OU=IT,DC=example,DC=local" -w "Password123"
+```
+Ajustar el filtro LDAP
+```bash
+python3 ldap-harvester.py -t <server-ip> -b "dc=example,dc=local" \
+  --filter '(|(objectClass=person)(objectClass=user)(objectClass=organizationalPerson)(objectClass=inetOrgPerson))'
+```
+Cambiar archivos de salida
+```bash
+python3 ldap-harvester.py -t <server-ip> -b "dc=example,dc=local" \
+  --outfile users.txt --skipped skipped_dn.log
+```
+Generar lista limpia solo con nombres
+```bash
+cut -d' ' -f1 users.txt | sort -u > users_only.txt
+```
+
+#Casos de uso
+*Reconocimiento de cuentas durante auditorías de seguridad.
+*Identificación de usuarios referenciados únicamente por pertenencia a grupos.
+*Preparación de inventarios internos de cuentas en entornos de prueba.
+*Validación de visibilidad/ACLs sobre atributos de directorio.
+
+#Limitaciones
+*ACLs: si los atributos están protegidos, solo podrá derivarse el nombre desde el DN.
+*Nombres complejos: la heurística CN → nombre.apellido puede no ser perfecta en todos los casos (comillas, caracteres especiales, apellidos compuestos).
+*Referrals/particiones: el script desactiva auto_referrals por defecto para evitar resultados fuera de alcance; habilítalo manualmente si es necesario y controlado.
+
