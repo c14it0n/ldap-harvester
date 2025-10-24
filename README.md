@@ -64,13 +64,13 @@ cut -d' ' -f1 users.txt | sort -u > users_only.txt
 ```
 
 ## Casos de uso
-- **Reconocimiento de cuentas durante auditorías de seguridad.
-- **Identificación de usuarios referenciados únicamente por pertenencia a grupos.
-- **Preparación de inventarios internos de cuentas en entornos de prueba.
-- **Validación de visibilidad/ACLs sobre atributos de directorio.
+- Reconocimiento de cuentas durante auditorías de seguridad.
+- Identificación de usuarios referenciados únicamente por pertenencia a grupos.
+- Preparación de inventarios internos de cuentas en entornos de prueba.
+- Validación de visibilidad/ACLs sobre atributos de directorio.
 
 ## Limitaciones
-- **ACLs: si los atributos están protegidos, solo podrá derivarse el nombre desde el DN.
-- **Nombres complejos: la heurística CN → nombre.apellido puede no ser perfecta en todos los casos (comillas, caracteres especiales, apellidos compuestos).
-- **Referrals/particiones: el script desactiva auto_referrals por defecto para evitar resultados fuera de alcance; habilítalo manualmente si es necesario y controlado.
+- ACLs: si los atributos están protegidos, solo podrá derivarse el nombre desde el DN.
+- Nombres complejos: la heurística CN → nombre.apellido puede no ser perfecta en todos los casos (comillas, caracteres especiales, apellidos compuestos).
+- Referrals/particiones: el script desactiva auto_referrals por defecto para evitar resultados fuera de alcance; habilítalo manualmente si es necesario y controlado.
 
